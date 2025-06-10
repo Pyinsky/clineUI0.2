@@ -1,160 +1,263 @@
-# 📊 StockArt - AI-Powered Stock Analysis Platform
+# StockArt AI Chat
 
-A modern, responsive web application for stock market analysis with an intuitive user interface and advanced features.
+A full-stack AI-powered chat application for stock market analysis and discussion. Built with a modern frontend and n8n workflow backend, integrating with OpenRouter API using Gemini 2.5 Flash model.
 
-![StockArt Logo](https://img.shields.io/badge/StockArt-AI%20Powered-blue?style=for-the-badge&logo=trending-up)
+## 🌟 Features
 
-## 🚀 Features
+- **Perplexity-inspired UI**: Clean, modern interface with responsive design
+- **AI-Powered Chat**: Advanced conversational AI using Gemini 2.5 Flash
+- **Stock Market Focus**: Specialized for financial discussions and stock analysis
+- **Real-time Communication**: WebSocket-based chat with typing indicators
+- **Mobile Optimized**: Touch-friendly interface with gesture support
+- **Dark/Light Theme**: Automatic theme detection with manual override
+- **Railway Ready**: Pre-configured for easy deployment
 
-- **🔍 Smart Search**: Real-time company search with autocomplete suggestions
-- **📈 Watchlist**: Personal stock tracking with live price updates
-- **📱 Responsive Design**: Optimized for desktop, tablet, and mobile devices
-- **🎨 Modern UI/UX**: Clean, professional interface with smooth animations
-- **⚡ Fast Performance**: Lightweight and optimized for speed
-- **🔒 Secure**: Built with security best practices
+## 🏗️ Architecture
 
-## 🛠️ Tech Stack
-
-- **Frontend**: HTML5, CSS3, JavaScript (ES6+)
-- **Backend**: Node.js, Express.js
-- **Deployment**: Railway
-- **Version Control**: Git, GitHub
-
-## 📋 Quick Start
-
-### Prerequisites
-
-- Node.js (v18.0.0 or higher)
-- npm (v8.0.0 or higher)
-- Git
-
-### Local Development
-
-1. **Clone the repository**
-   ```bash
-   git clone https://github.com/your-username/stockart-website.git
-   cd stockart-website
-   ```
-
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Start the development server**
-   ```bash
-   npm start
-   ```
-
-4. **Open your browser**
-   ```
-   http://localhost:3000
-   ```
-
-## 🚀 Deployment
-
-### Railway Deployment
-
-1. **Connect your GitHub repository to Railway**
-2. **Railway will automatically detect the configuration**
-3. **Deploy with one click!**
-
-The app includes:
-- ✅ `railway.json` for deployment configuration
-- ✅ Health check endpoint at `/health`
-- ✅ Production-ready Express server
-- ✅ Security middleware (Helmet)
-- ✅ Compression for better performance
-
-### Environment Variables
-
-No environment variables required for basic functionality.
+```mermaid
+graph TB
+    A[Frontend UI] --> B[Express Server]
+    B --> C[n8n Webhook]
+    C --> D[OpenRouter API]
+    D --> E[Gemini 2.5 Flash]
+    E --> D
+    D --> C
+    C --> B
+    B --> A
+    
+    subgraph "Frontend"
+        A
+        B
+    end
+    
+    subgraph "Backend"
+        C
+        F[n8n Workflow]
+        C --> F
+        F --> C
+    end
+    
+    subgraph "AI Services"
+        D
+        E
+    end
+```
 
 ## 📁 Project Structure
 
 ```
-stockart-website/
-├── 📄 package.json          # Project dependencies and scripts
-├── 🖥️ server.js             # Express server configuration
-├── ⚙️ railway.json          # Railway deployment settings
-├── 📚 README.md             # Project documentation
-├── 🚫 .gitignore            # Git ignore rules
-├── 🏠 index.html            # Main HTML file
-├── 📁 styles/               # CSS stylesheets
-│   ├── main.css            # Core styles
-│   └── animations.css      # Animation effects
-└── 📁 scripts/              # JavaScript files
-    └── main.js             # Main application logic
+stockart-ai-chat/
+├── README.md                 # This file
+├── frontend/                 # Frontend application
+│   ├── index.html           # Main HTML file
+│   ├── server.js            # Express server
+│   ├── package.json         # Frontend dependencies
+│   ├── Dockerfile           # Frontend Docker config
+│   ├── railway.json         # Frontend Railway config
+│   ├── scripts/             # JavaScript modules
+│   │   ├── config.js        # Configuration management
+│   │   ├── chat.js          # Chat functionality
+│   │   ├── mobile.js        # Mobile features
+│   │   └── main.js          # Main application logic
+│   └── styles/              # CSS stylesheets
+│       ├── main.css         # Main styles
+│       ├── chat.css         # Chat interface
+│       ├── mobile.css       # Mobile responsive
+│       └── animations.css   # Animations
+└── n8n-backend/             # Backend workflow
+    ├── stockart-ai-workflow.json  # n8n workflow definition
+    ├── Dockerfile           # n8n Docker config
+    └── railway.json         # Backend Railway config
 ```
 
-## 🎯 API Endpoints
+## 🚀 Quick Start
 
-### Health Check
+### Prerequisites
+
+- Node.js 18+ (for frontend)
+- Docker (for containerized deployment)
+- Railway account (for cloud deployment)
+- OpenRouter API key
+- n8n instance or Railway deployment
+
+### Local Development
+
+1. **Clone the repository**
+```bash
+git clone <repository-url>
+cd stockart-ai-chat
 ```
-GET /health
+
+2. **Set up the frontend**
+```bash
+cd frontend
+npm install
+export N8N_WEBHOOK_URL="your-n8n-webhook-url"
+npm run dev
 ```
-Returns server health status for monitoring.
 
-### Stock Search
-```
-GET /api/stocks/search?q=apple
-```
-Returns filtered stock suggestions based on query.
+3. **Set up the n8n backend**
+   - Import the workflow from `n8n-backend/stockart-ai-workflow.json`
+   - Configure your OpenRouter API key
+   - Set the webhook URL in your frontend configuration
 
-## 🎨 Design Features
+### Railway Deployment
 
-### 🎭 Interactive Elements
-- **Collapsible Sidebar**: Toggle between expanded and collapsed states
-- **Search Suggestions**: Real-time company/stock autocomplete
-- **Hover Effects**: Smooth transitions and visual feedback
-- **Loading States**: Professional loading animations
+#### Deploy Frontend
 
-### 🎯 User Experience
-- **Keyboard Navigation**: Full keyboard support with shortcuts
-- **Accessibility**: Screen reader support and ARIA labels
-- **Responsive Layout**: Adapts to all screen sizes
-- **Performance**: Optimized for fast loading
+1. Create a new Railway project
+2. Connect your Git repository
+3. Set the root directory to `frontend`
+4. Add environment variables:
+   - `N8N_WEBHOOK_URL`: Your n8n webhook URL
+5. Deploy automatically via Git
 
-### 🎨 Visual Design
-- **Modern Color Scheme**: Professional dark theme
-- **Custom Logo**: Branded stock chart icon
-- **Typography**: Clean, readable fonts
-- **Animations**: Smooth transitions and micro-interactions
+#### Deploy n8n Backend
 
-## 🧩 Key Components
+1. Create another Railway service
+2. Set the root directory to `n8n-backend`
+3. Add environment variables:
+   - `OPENROUTER_API_KEY`: Your OpenRouter API key
+   - `N8N_ENCRYPTION_KEY`: Random 32-character string
+4. Import the workflow after deployment
 
-### Navigation Sidebar
-- **Home**: Main dashboard
-- **Discover**: Explore stocks and markets
-- **Spaces**: Organized workspaces
-- **Watchlist**: Personal stock tracking
+## 🔧 Configuration
 
-### Search Interface
-- **Smart Input**: "Ask any company..." placeholder
-- **PRO Mode**: Advanced search features
-- **Deep Research**: Enhanced analysis tools
-- **Voice Search**: Audio input support
-
-### Watchlist Features
-- **Real-time Prices**: Live stock price updates
-- **Color Coding**: Green/red for gains/losses
-- **Quick Access**: One-click stock information
-
-## 🔧 Development Scripts
+### Frontend Environment Variables
 
 ```bash
-npm start       # Start production server
-npm run dev     # Start development server
-npm run build   # Build for production (static site)
-npm test        # Run tests (placeholder)
+NODE_ENV=production          # Environment mode
+PORT=3000                   # Server port
+N8N_WEBHOOK_URL=            # Backend webhook URL
 ```
 
-## 📈 Performance Optimization
+### Backend Environment Variables
 
-- **Compression**: Gzip compression for reduced file sizes
-- **Security**: Helmet.js for security headers
-- **Caching**: Static file caching strategies
-- **Minification**: CSS and JS optimization
+```bash
+N8N_ENCRYPTION_KEY=         # 32-character encryption key
+OPENROUTER_API_KEY=         # OpenRouter API key
+N8N_PORT=5678              # n8n port
+N8N_PROTOCOL=http          # Protocol (http/https)
+N8N_HOST=localhost         # Host
+```
+
+## 🔗 API Integration
+
+### Frontend to Backend Communication
+
+The frontend communicates with the n8n backend via webhook:
+
+```javascript
+// Chat API endpoint
+POST /webhook/stockart-chat
+
+// Request payload
+{
+  "message": "Tell me about AAPL stock",
+  "conversationId": "optional-conversation-id"
+}
+
+// Response
+{
+  "response": "Apple Inc. (AAPL) is...",
+  "conversationId": "generated-or-existing-id"
+}
+```
+
+### OpenRouter Integration
+
+The n8n workflow uses OpenRouter to access Gemini 2.5 Flash:
+
+```json
+{
+  "model": "google/gemini-2.0-flash-exp:free",
+  "messages": [
+    {
+      "role": "system",
+      "content": "You are a financial AI assistant..."
+    },
+    {
+      "role": "user", 
+      "content": "User's question about stocks"
+    }
+  ]
+}
+```
+
+## 🎨 Design System
+
+### Color Palette
+
+- **Primary**: `#4a9eff` (Blue)
+- **Secondary**: `#00d4aa` (Teal)
+- **Success**: `#51cf66` (Green)
+- **Error**: `#ff6b6b` (Red)
+- **Warning**: `#ffd43b` (Yellow)
+
+### Typography
+
+- **Primary Font**: Inter, system fonts
+- **Font Sizes**: 12px - 30px responsive scale
+- **Line Height**: 1.6 for optimal readability
+
+### Responsive Breakpoints
+
+- **Mobile**: < 768px
+- **Tablet**: 768px - 1024px
+- **Desktop**: > 1024px
+
+## 🧪 Testing
+
+### Frontend Testing
+
+```bash
+cd frontend
+npm test              # Run test suite
+npm run test:coverage # Generate coverage report
+npm run test:e2e      # End-to-end tests
+```
+
+### Manual Testing Checklist
+
+- [ ] Chat functionality works
+- [ ] Responsive design on all devices
+- [ ] Dark/light theme switching
+- [ ] Accessibility features
+- [ ] API error handling
+- [ ] Mobile gestures
+
+## 📦 Production Deployment
+
+### Docker Deployment
+
+1. **Build and run frontend**
+```bash
+cd frontend
+docker build -t stockart-frontend .
+docker run -p 3000:3000 -e N8N_WEBHOOK_URL="your-url" stockart-frontend
+```
+
+2. **Build and run backend**
+```bash
+cd n8n-backend
+docker build -t stockart-backend .
+docker run -p 5678:5678 -e OPENROUTER_API_KEY="your-key" stockart-backend
+```
+
+### Railway Deployment
+
+1. **Frontend**: Deploy from `frontend/` directory
+2. **Backend**: Deploy from `n8n-backend/` directory
+3. **Environment Variables**: Set via Railway dashboard
+4. **Custom Domains**: Configure in Railway settings
+
+## 🔒 Security Considerations
+
+- **API Keys**: Never expose in frontend code
+- **CORS**: Properly configured for production domains
+- **Rate Limiting**: Implemented on API endpoints
+- **Input Validation**: Sanitized user inputs
+- **HTTPS**: Enforced in production
 
 ## 🤝 Contributing
 
@@ -164,22 +267,35 @@ npm test        # Run tests (placeholder)
 4. Push to the branch (`git push origin feature/amazing-feature`)
 5. Open a Pull Request
 
+### Development Guidelines
+
+- Follow existing code style
+- Add tests for new features
+- Update documentation
+- Ensure responsive design
+- Test on multiple devices
+
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Acknowledgments
+## 🆘 Support
 
-- Design inspired by modern financial platforms
-- Icons and UI elements for professional appearance
-- Performance optimization techniques from web best practices
+- **Issues**: GitHub Issues for bug reports
+- **Discussions**: GitHub Discussions for questions
+- **Documentation**: See README files in each directory
 
-## 📞 Support
+## 🚀 Roadmap
 
-For support, email support@stockart.com or open an issue on GitHub.
+- [ ] User authentication system
+- [ ] Real-time stock price integration
+- [ ] Portfolio tracking features
+- [ ] Advanced charting capabilities
+- [ ] Push notifications
+- [ ] Mobile app (React Native)
+- [ ] API rate limiting dashboard
+- [ ] Advanced AI model selection
 
 ---
 
 **Built with ❤️ for the financial community**
-
-[![Deploy on Railway](https://railway.app/button.svg)](https://railway.app/new/template)
